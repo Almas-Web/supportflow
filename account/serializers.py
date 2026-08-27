@@ -3,9 +3,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from rest_framework import serializers
-
 from .models import CustomUser
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
         email.send(fail_silently=False)
         return True
 
-
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
@@ -47,7 +44,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
-
 
 class PasswordResetConfirmSerializer(serializers.Serializer):
     new_password = serializers.CharField(min_length=8, write_only=True)

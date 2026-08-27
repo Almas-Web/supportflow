@@ -1,3 +1,4 @@
+from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -8,13 +9,13 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
 from .serializers import PasswordResetConfirmSerializer, PasswordResetRequestSerializer, UserLoginSerializer, UserSerializer, UserUpdateSerializer
-from django.contrib.auth.tokens import default_token_generator
 
 class UserSignUp(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 class VerifyEmail(generics.GenericAPIView):
     swagger_fake_view = True
+
     def get(self, request, token):
         user = CustomUser.objects.filter(verification_token=token).first()
         if user:
@@ -28,6 +29,7 @@ class VerifyEmail(generics.GenericAPIView):
 
 class ResendVerificationEmail(generics.GenericAPIView):
     swagger_fake_view = True
+
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         if not email:
@@ -48,6 +50,7 @@ class ResendVerificationEmail(generics.GenericAPIView):
 
 class UserLogin(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
+
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -64,8 +67,10 @@ class UserLogin(generics.GenericAPIView):
 class RetrieveUpdateProfile(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
+
     def get_object(self):
         return self.request.user
+
     def get_serializer_class(self):
         if self.request.method in ["PUT", "PATCH"]:
             return UserUpdateSerializer
@@ -79,32 +84,23 @@ class PasswordResetRequest(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data["email"]
         user = CustomUser.objects.filter(email=email).first()
-
         if not user:
             return Response({"details": "User with this email doesn't exist!"}, status=status.HTTP_404_NOT_FOUND)
-
         token = default_token_generator.make_token(user)
-
         return Response({"details": "Password reset token generated!", "token": token}, status=status.HTTP_200_OK)
-
 
 class PasswordResetConfirm(generics.GenericAPIView):
     serializer_class = PasswordResetConfirmSerializer
 
     def post(self, request, uid, token):
         user = CustomUser.objects.filter(id=uid).first()
-
         if not user or not default_token_generator.check_token(user, token):
             return Response({"details": "Invalid or expired token!"}, status=status.HTTP_400_BAD_REQUEST)
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         user.set_password(serializer.validated_data["new_password"])
         user.save(update_fields=["password"])
-
         return Response({"details": "Password reset successfully!"}, status=status.HTTP_200_OK)
-
 
 class ActivateDeactivateUser(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -113,8 +109,5 @@ class ActivateDeactivateUser(generics.GenericAPIView):
         user = request.user
         user.is_active = not user.is_active
         user.save(update_fields=["is_active"])
-
-        return Response({
-            "details": "User activated!" if user.is_active else "User deactivated!",
-            "is_active": user.is_active,
-        }, status=status.HTTP_200_OK)
+        return Response({"details": "User activated!" if user.is_active else "User deactivated!", "is_active": user.is_active}, status=status.HTTP_200_OK)
+    
