@@ -1,12 +1,11 @@
-from django.db.models import Avg, Count, F, ExpressionWrapper, DurationField
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from organizations.models import Membership
-from tickets.models import Ticket
 from .models import AnalyticsSnapshot
 from .serializers import AnalyticsSnapshotSerializer
+from .services import generate_analytics_snapshot
 
 class AnalyticsSnapshotListCreateView(generics.ListCreateAPIView):
     serializer_class = AnalyticsSnapshotSerializer
@@ -54,10 +53,5 @@ class TicketAnalyticsView(generics.RetrieveAPIView):
 
     def get_object(self):
         organization_id = self.kwargs["organization_id"]
-        if not Membership.objects.filter(organization_id=organization_id, user=self.request.user, is_active=True, organization__is_active=True).exists():
-            raise PermissionDenied("You do not have access to this organization.")
-        snapshot = AnalyticsSnapshot.objects.filter(organization_id=organization_id).order_by("-date").first()
-        if snapshot:
-            return snapshot
-        raise PermissionDenied("No analytics data is available for this organization.")
-    
+        membership = get_object_or_404(Membership, organization_id=organization_id, user=self.request.user, is_active=True, organization__is_active=True)
+        return generate_analytics_snapshot(membership.organization)

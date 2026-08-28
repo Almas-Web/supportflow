@@ -34,6 +34,11 @@ class AnalyticsTests(APITestCase):
     def authenticate(self, user):
         self.client.force_authenticate(user=user)
 
+    def create_ticket(self, **kwargs):
+        data = {"organization": self.organization, "customer": self.customer, "team": self.team, "agent": self.agent, "title": "Login problem", "description": "Customer cannot login", "category": Ticket.TECHNICAL, "priority": Ticket.HIGH}
+        data.update(kwargs)
+        return Ticket.objects.create(**data)
+
     def create_snapshot(self, **kwargs):
         data = {"organization": self.organization, "date": date.today(), "total_tickets": 10, "open_tickets": 3, "in_progress_tickets": 2, "waiting_customer_tickets": 1, "resolved_tickets": 2, "closed_tickets": 2, "urgent_tickets": 1, "high_priority_tickets": 3, "average_resolution_minutes": 120.5, "tickets_by_category": {"GENERAL": 2, "TECHNICAL": 4, "BILLING": 2, "ACCOUNT": 1, "OTHER": 1}, "tickets_by_priority": {"LOW": 2, "MEDIUM": 4, "HIGH": 3, "URGENT": 1}, "tickets_by_status": {"OPEN": 3, "IN_PROGRESS": 2, "WAITING_CUSTOMER": 1, "RESOLVED": 2, "CLOSED": 2}, "tickets_by_team": {str(self.team.id): 10}}
         data.update(kwargs)
@@ -131,11 +136,15 @@ class AnalyticsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_owner_can_view_latest_analytics_summary(self):
-        self.create_snapshot()
+        self.create_ticket()
         self.authenticate(self.owner)
         response = self.client.get(self.analytics_summary_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["total_tickets"], 10)
+        self.assertEqual(response.data["total_tickets"], 1)
+        self.assertEqual(response.data["high_priority_tickets"], 1)
+        self.assertEqual(response.data["tickets_by_category"]["TECHNICAL"], 1)
+        self.assertEqual(response.data["tickets_by_priority"]["HIGH"], 1)
+        self.assertEqual(response.data["tickets_by_status"]["OPEN"], 1)
 
     def test_unauthenticated_user_cannot_view_analytics_summary(self):
         response = self.client.get(self.analytics_summary_url)
