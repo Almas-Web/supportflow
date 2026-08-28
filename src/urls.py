@@ -9,6 +9,7 @@ urlpatterns = [
     path("api/organizations/", include("organizations.urls")),
     path("api/", include("teams.urls")),
     path("api/organizations/<int:organization_id>/customers/", include("customers.urls")),
+    path("api/organizations/<int:organization_id>/tickets/", include("tickets.urls")),
     
 ]
 
