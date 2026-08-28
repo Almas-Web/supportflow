@@ -13,6 +13,7 @@ urlpatterns = [
     path("api/", include("sla.urls")),
     path("api/", include("notifications.urls")),
     path("api/organizations/", include("ratings.urls")),
+    path("api/organizations/", include("audit.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
