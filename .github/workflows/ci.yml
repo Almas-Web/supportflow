@@ -43,8 +43,8 @@ jobs:
 
       - name: Run Django checks
         env:
-          SECRET_KEY: test-secret-key-for-github-actions
-          DEBUG: "False"
+          SECRET_KEY: test-secret-key-for-github-actions-only
+          DEBUG: "True"
           ALLOWED_HOSTS: localhost,127.0.0.1
           DB_ENGINE: django.db.backends.postgresql
           DB_NAME: supportflow
@@ -57,8 +57,8 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: test-secret-key-for-github-actions
-          DEBUG: "False"
+          SECRET_KEY: test-secret-key-for-github-actions-only
+          DEBUG: "True"
           ALLOWED_HOSTS: localhost,127.0.0.1
           DB_ENGINE: django.db.backends.postgresql
           DB_NAME: supportflow
