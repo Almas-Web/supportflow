@@ -8,7 +8,7 @@ paths:
     post:
       operationId: account_activate_deactivate_create
       tags:
-      - account
+      - Account
       security:
       - jwtAuth: []
       responses:
@@ -18,7 +18,7 @@ paths:
     post:
       operationId: account_login_create
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -45,7 +45,7 @@ paths:
     post:
       operationId: password_reset_request
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -83,7 +83,7 @@ paths:
           type: integer
         required: true
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -110,7 +110,7 @@ paths:
     get:
       operationId: account_profile_retrieve
       tags:
-      - account
+      - Account
       security:
       - jwtAuth: []
       responses:
@@ -123,7 +123,7 @@ paths:
     put:
       operationId: account_profile_update
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -147,7 +147,7 @@ paths:
     patch:
       operationId: account_profile_partial_update
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -172,7 +172,7 @@ paths:
     post:
       operationId: account_resend_verification_create
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -199,7 +199,7 @@ paths:
     post:
       operationId: account_signup_create
       tags:
-      - account
+      - Account
       requestBody:
         content:
           application/json:
@@ -259,7 +259,7 @@ paths:
           type: string
         required: true
       tags:
-      - account
+      - Account
       security:
       - jwtAuth: []
       - {}
@@ -317,7 +317,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       security:
       - jwtAuth: []
       responses:
@@ -338,7 +338,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       requestBody:
         content:
           application/json:
@@ -375,7 +375,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       security:
       - jwtAuth: []
       responses:
@@ -399,7 +399,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       requestBody:
         content:
           application/json:
@@ -435,7 +435,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       requestBody:
         content:
           application/json:
@@ -470,7 +470,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       security:
       - jwtAuth: []
       responses:
@@ -486,7 +486,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Analytics
       security:
       - jwtAuth: []
       responses:
@@ -506,7 +506,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Audit
       security:
       - jwtAuth: []
       responses:
@@ -533,7 +533,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Audit
       security:
       - jwtAuth: []
       responses:
@@ -553,7 +553,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       security:
       - jwtAuth: []
       responses:
@@ -574,7 +574,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       requestBody:
         content:
           application/json:
@@ -611,7 +611,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       security:
       - jwtAuth: []
       responses:
@@ -635,7 +635,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       requestBody:
         content:
           application/json:
@@ -671,7 +671,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       requestBody:
         content:
           application/json:
@@ -706,7 +706,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Customers
       security:
       - jwtAuth: []
       responses:
@@ -891,7 +891,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Notifications
       security:
       - jwtAuth: []
       - {}
@@ -919,7 +919,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Notifications
       security:
       - jwtAuth: []
       - {}
@@ -945,7 +945,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Notifications
       requestBody:
         content:
           application/json:
@@ -977,7 +977,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Notifications
       requestBody:
         content:
           application/json:
@@ -1010,7 +1010,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       security:
       - jwtAuth: []
       responses:
@@ -1031,7 +1031,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       requestBody:
         content:
           application/json:
@@ -1068,7 +1068,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       security:
       - jwtAuth: []
       responses:
@@ -1092,7 +1092,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       requestBody:
         content:
           application/json:
@@ -1128,7 +1128,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       requestBody:
         content:
           application/json:
@@ -1163,7 +1163,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Ratings
       security:
       - jwtAuth: []
       responses:
@@ -1179,7 +1179,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       security:
       - jwtAuth: []
       responses:
@@ -1200,7 +1200,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       requestBody:
         content:
           application/json:
@@ -1237,7 +1237,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       security:
       - jwtAuth: []
       responses:
@@ -1261,7 +1261,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       requestBody:
         content:
           application/json:
@@ -1297,7 +1297,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       requestBody:
         content:
           application/json:
@@ -1332,7 +1332,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Reports
       security:
       - jwtAuth: []
       responses:
@@ -1348,7 +1348,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -1369,7 +1369,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -1406,7 +1406,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -1430,7 +1430,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -1466,7 +1466,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -1501,7 +1501,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -1517,7 +1517,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1538,7 +1538,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1575,7 +1575,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1599,7 +1599,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1635,7 +1635,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1670,7 +1670,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1691,7 +1691,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1717,7 +1717,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1759,7 +1759,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1788,7 +1788,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1829,7 +1829,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       requestBody:
         content:
           application/json:
@@ -1869,7 +1869,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Teams
       security:
       - jwtAuth: []
       responses:
@@ -1885,7 +1885,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -1906,7 +1906,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -1943,7 +1943,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -1967,7 +1967,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -2003,7 +2003,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       requestBody:
         content:
           application/json:
@@ -2038,7 +2038,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - SLA
       security:
       - jwtAuth: []
       responses:
@@ -2054,7 +2054,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       security:
       - jwtAuth: []
       responses:
@@ -2075,7 +2075,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       requestBody:
         content:
           application/json:
@@ -2112,7 +2112,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       security:
       - jwtAuth: []
       responses:
@@ -2136,7 +2136,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       requestBody:
         content:
           application/json:
@@ -2172,7 +2172,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       requestBody:
         content:
           application/json:
@@ -2207,7 +2207,7 @@ paths:
           type: integer
         required: true
       tags:
-      - organizations
+      - Tickets
       security:
       - jwtAuth: []
       responses:
@@ -3440,3 +3440,26 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+tags:
+- name: Account
+  description: Authentication and user account management.
+- name: Organizations
+  description: Organization and membership management.
+- name: Teams
+  description: Team and team member management.
+- name: Customers
+  description: Customer management.
+- name: Tickets
+  description: Customer support ticket management.
+- name: SLA
+  description: SLA policy and ticket SLA management.
+- name: Notifications
+  description: Organization notifications.
+- name: Ratings
+  description: Customer and ticket ratings.
+- name: Audit
+  description: Organization audit logs.
+- name: Analytics
+  description: Organization analytics and summaries.
+- name: Reports
+  description: Organization reports.

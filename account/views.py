@@ -84,10 +84,11 @@ class RetrieveUpdateProfile(generics.RetrieveUpdateAPIView):
             return UserUpdateSerializer
         return UserSerializer
 
-@extend_schema(tags=["Account"], operation_id="password_reset_request")
+@extend_schema(tags=["Account"])
 class PasswordResetRequest(generics.GenericAPIView):
     serializer_class = PasswordResetRequestSerializer
 
+    @extend_schema(operation_id="password_reset_request")
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -98,10 +99,11 @@ class PasswordResetRequest(generics.GenericAPIView):
         token = default_token_generator.make_token(user)
         return Response({"details": "Password reset token generated!", "token": token}, status=status.HTTP_200_OK)
 
-@extend_schema(tags=["Account"], operation_id="password_reset_confirm")
+@extend_schema(tags=["Account"])
 class PasswordResetConfirm(generics.GenericAPIView):
     serializer_class = PasswordResetConfirmSerializer
 
+    @extend_schema(operation_id="password_reset_confirm")
     def post(self, request, uid, token):
         user = CustomUser.objects.filter(id=uid).first()
         if not user or not default_token_generator.check_token(user, token):
@@ -122,3 +124,4 @@ class ActivateDeactivateUser(generics.GenericAPIView):
         user.is_active = not user.is_active
         user.save(update_fields=["is_active"])
         return Response({"details": "User activated!" if user.is_active else "User deactivated!", "is_active": user.is_active}, status=status.HTTP_200_OK)
+    
