@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
@@ -9,6 +10,7 @@ from .serializers import MembershipSerializer, OrganizationSerializer
 User = get_user_model()
 
 
+@extend_schema(tags=["Organizations"])
 class OrganizationListCreateView(generics.ListCreateAPIView):
     serializer_class = OrganizationSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -29,6 +31,7 @@ class OrganizationListCreateView(generics.ListCreateAPIView):
         )
 
 
+@extend_schema(tags=["Organizations"])
 class OrganizationDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = OrganizationSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -41,6 +44,7 @@ class OrganizationDetailView(generics.RetrieveUpdateAPIView):
         ).distinct()
 
 
+@extend_schema(tags=["Organizations"])
 class MembershipListCreateView(generics.ListCreateAPIView):
     serializer_class = MembershipSerializer
     permission_classes = [IsOrganizationMember]
@@ -133,6 +137,7 @@ class MembershipListCreateView(generics.ListCreateAPIView):
         )
 
 
+@extend_schema(tags=["Organizations"])
 class MembershipDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MembershipSerializer
     permission_classes = [IsOrganizationMember]

@@ -1,7 +1,5 @@
 from django.urls import path
-
 from .views import RatingListCreateView, RatingDetailView
-
 
 urlpatterns = [
     path("<int:organization_id>/ratings/", RatingListCreateView.as_view(), name="rating-list-create"),

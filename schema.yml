@@ -1,0 +1,3442 @@
+openapi: 3.0.3
+info:
+  title: SupportFlow API
+  version: 1.0.0
+  description: Multi-tenant customer support and ticket management API.
+paths:
+  /api/account/activate-deactivate/:
+    post:
+      operationId: account_activate_deactivate_create
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/account/login/:
+    post:
+      operationId: account_login_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLogin'
+          description: ''
+  /api/account/password-reset/:
+    post:
+      operationId: password_reset_request
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetRequest'
+          description: ''
+  /api/account/password-reset/{uid}/{token}/:
+    post:
+      operationId: password_reset_confirm
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: uid
+        schema:
+          type: integer
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirm'
+          description: ''
+  /api/account/profile/:
+    get:
+      operationId: account_profile_retrieve
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: account_profile_update
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+    patch:
+      operationId: account_profile_partial_update
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+  /api/account/resend-verification/:
+    post:
+      operationId: account_resend_verification_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendVerificationEmail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendVerificationEmail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendVerificationEmail'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResendVerificationEmail'
+          description: ''
+  /api/account/signup/:
+    post:
+      operationId: account_signup_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/account/token/refresh/:
+    post:
+      operationId: account_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/account/verify-email/{token}/:
+    get:
+      operationId: account_verify_email_retrieve
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/organizations/:
+    get:
+      operationId: organizations_list
+      tags:
+      - Organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+          description: ''
+    post:
+      operationId: organizations_create
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{organization_id}/analytics/:
+    get:
+      operationId: organizations_analytics_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+    post:
+      operationId: organizations_analytics_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+  /api/organizations/{organization_id}/analytics/{id}/:
+    get:
+      operationId: organizations_analytics_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+    put:
+      operationId: organizations_analytics_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnalyticsSnapshot'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+    patch:
+      operationId: organizations_analytics_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalyticsSnapshot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalyticsSnapshot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalyticsSnapshot'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+    delete:
+      operationId: organizations_analytics_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/analytics/summary/:
+    get:
+      operationId: organizations_analytics_summary_retrieve
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsSnapshot'
+          description: ''
+  /api/organizations/{organization_id}/audit-logs/:
+    get:
+      operationId: organizations_audit_logs_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditLog'
+          description: ''
+  /api/organizations/{organization_id}/audit-logs/{id}/:
+    get:
+      operationId: organizations_audit_logs_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLog'
+          description: ''
+  /api/organizations/{organization_id}/customers/:
+    get:
+      operationId: organizations_customers_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+          description: ''
+    post:
+      operationId: organizations_customers_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+  /api/organizations/{organization_id}/customers/{id}/:
+    get:
+      operationId: organizations_customers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    put:
+      operationId: organizations_customers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    patch:
+      operationId: organizations_customers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomer'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: ''
+    delete:
+      operationId: organizations_customers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/members/:
+    get:
+      operationId: organizations_members_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+          description: ''
+    post:
+      operationId: organizations_members_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+  /api/organizations/{organization_id}/members/{id}/:
+    get:
+      operationId: organizations_members_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    put:
+      operationId: organizations_members_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    patch:
+      operationId: organizations_members_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    delete:
+      operationId: organizations_members_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/notifications/:
+    get:
+      operationId: organizations_notifications_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/organizations/{organization_id}/notifications/{id}/:
+    get:
+      operationId: organizations_notifications_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/organizations/{organization_id}/notifications/{id}/read/:
+    patch:
+      operationId: organizations_notifications_read_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNotification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNotification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNotification'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/organizations/{organization_id}/notifications/mark-all-read/:
+    post:
+      operationId: organizations_notifications_mark_all_read_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notification'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/organizations/{organization_id}/ratings/:
+    get:
+      operationId: organizations_ratings_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rating'
+          description: ''
+    post:
+      operationId: organizations_ratings_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rating'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Rating'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Rating'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+          description: ''
+  /api/organizations/{organization_id}/ratings/{id}/:
+    get:
+      operationId: organizations_ratings_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+          description: ''
+    put:
+      operationId: organizations_ratings_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rating'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Rating'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Rating'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+          description: ''
+    patch:
+      operationId: organizations_ratings_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRating'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRating'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRating'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rating'
+          description: ''
+    delete:
+      operationId: organizations_ratings_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/reports/:
+    get:
+      operationId: organizations_reports_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+          description: ''
+    post:
+      operationId: organizations_reports_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+  /api/organizations/{organization_id}/reports/{id}/:
+    get:
+      operationId: organizations_reports_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    put:
+      operationId: organizations_reports_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Report'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Report'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    patch:
+      operationId: organizations_reports_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReport'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: ''
+    delete:
+      operationId: organizations_reports_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/sla-policies/:
+    get:
+      operationId: organizations_sla_policies_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SLAPolicy'
+          description: ''
+    post:
+      operationId: organizations_sla_policies_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAPolicy'
+          description: ''
+  /api/organizations/{organization_id}/sla-policies/{id}/:
+    get:
+      operationId: organizations_sla_policies_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAPolicy'
+          description: ''
+    put:
+      operationId: organizations_sla_policies_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SLAPolicy'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAPolicy'
+          description: ''
+    patch:
+      operationId: organizations_sla_policies_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSLAPolicy'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSLAPolicy'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSLAPolicy'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAPolicy'
+          description: ''
+    delete:
+      operationId: organizations_sla_policies_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/teams/:
+    get:
+      operationId: organizations_teams_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+          description: ''
+    post:
+      operationId: organizations_teams_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Team'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+  /api/organizations/{organization_id}/teams/{id}/:
+    get:
+      operationId: organizations_teams_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+    put:
+      operationId: organizations_teams_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Team'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+    patch:
+      operationId: organizations_teams_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeam'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTeam'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTeam'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: ''
+    delete:
+      operationId: organizations_teams_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/teams/{team_id}/members/:
+    get:
+      operationId: organizations_teams_members_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+          description: ''
+    post:
+      operationId: organizations_teams_members_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: ''
+  /api/organizations/{organization_id}/teams/{team_id}/members/{id}/:
+    get:
+      operationId: organizations_teams_members_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: ''
+    put:
+      operationId: organizations_teams_members_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TeamMember'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: ''
+    patch:
+      operationId: organizations_teams_members_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMember'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMember'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTeamMember'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+          description: ''
+    delete:
+      operationId: organizations_teams_members_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: team_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/ticket-slas/:
+    get:
+      operationId: organizations_ticket_slas_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketSLA'
+          description: ''
+    post:
+      operationId: organizations_ticket_slas_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSLA'
+          description: ''
+  /api/organizations/{organization_id}/ticket-slas/{id}/:
+    get:
+      operationId: organizations_ticket_slas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSLA'
+          description: ''
+    put:
+      operationId: organizations_ticket_slas_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketSLA'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSLA'
+          description: ''
+    patch:
+      operationId: organizations_ticket_slas_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketSLA'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketSLA'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketSLA'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSLA'
+          description: ''
+    delete:
+      operationId: organizations_ticket_slas_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_id}/tickets/:
+    get:
+      operationId: organizations_tickets_list
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+          description: ''
+    post:
+      operationId: organizations_tickets_create
+      parameters:
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+  /api/organizations/{organization_id}/tickets/{id}/:
+    get:
+      operationId: organizations_tickets_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+    put:
+      operationId: organizations_tickets_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+    patch:
+      operationId: organizations_tickets_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTicket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTicket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTicket'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+          description: ''
+    delete:
+      operationId: organizations_tickets_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: organization_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{id}/:
+    get:
+      operationId: organizations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    put:
+      operationId: organizations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    patch:
+      operationId: organizations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+components:
+  schemas:
+    ActionEnum:
+      enum:
+      - CREATE
+      - UPDATE
+      - DELETE
+      - LOGIN
+      - LOGOUT
+      type: string
+      description: |-
+        * `CREATE` - Create
+        * `UPDATE` - Update
+        * `DELETE` - Delete
+        * `LOGIN` - Login
+        * `LOGOUT` - Logout
+    AnalyticsSnapshot:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        date:
+          type: string
+          format: date
+        total_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        open_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        in_progress_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        waiting_customer_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        resolved_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        closed_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        urgent_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        high_priority_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        average_resolution_minutes:
+          type: number
+          format: double
+          nullable: true
+        tickets_by_category: {}
+        tickets_by_priority: {}
+        tickets_by_status: {}
+        tickets_by_team: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - date
+      - id
+      - organization
+      - updated_at
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        action:
+          allOf:
+          - $ref: '#/components/schemas/ActionEnum'
+          readOnly: true
+        model_name:
+          type: string
+          readOnly: true
+        object_id:
+          type: integer
+          readOnly: true
+          nullable: true
+        description:
+          type: string
+          readOnly: true
+        changes:
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - action
+      - changes
+      - created_at
+      - description
+      - id
+      - model_name
+      - object_id
+      - organization
+      - user
+    CategoryEnum:
+      enum:
+      - GENERAL
+      - TECHNICAL
+      - BILLING
+      - ACCOUNT
+      - OTHER
+      type: string
+      description: |-
+        * `GENERAL` - General
+        * `TECHNICAL` - Technical
+        * `BILLING` - Billing
+        * `ACCOUNT` - Account
+        * `OTHER` - Other
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        company_name:
+          type: string
+          maxLength: 150
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        notes:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - organization
+      - updated_at
+      - user
+    Membership:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        is_active:
+          type: boolean
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - joined_at
+      - organization
+      - role
+      - user
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+          nullable: true
+        notification_type:
+          $ref: '#/components/schemas/NotificationTypeEnum'
+        title:
+          type: string
+          maxLength: 200
+        message:
+          type: string
+        is_read:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - message
+      - organization
+      - title
+      - user
+    NotificationTypeEnum:
+      enum:
+      - TICKET_CREATED
+      - TICKET_ASSIGNED
+      - TICKET_UPDATED
+      - TICKET_STATUS_CHANGED
+      - TICKET_RESOLVED
+      - GENERAL
+      type: string
+      description: |-
+        * `TICKET_CREATED` - Ticket Created
+        * `TICKET_ASSIGNED` - Ticket Assigned
+        * `TICKET_UPDATED` - Ticket Updated
+        * `TICKET_STATUS_CHANGED` - Ticket Status Changed
+        * `TICKET_RESOLVED` - Ticket Resolved
+        * `GENERAL` - General
+    Organization:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        owner:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - owner
+      - slug
+      - updated_at
+    PasswordResetConfirm:
+      type: object
+      properties:
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - new_password
+    PasswordResetRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    PatchedAnalyticsSnapshot:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        date:
+          type: string
+          format: date
+        total_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        open_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        in_progress_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        waiting_customer_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        resolved_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        closed_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        urgent_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        high_priority_tickets:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        average_resolution_minutes:
+          type: number
+          format: double
+          nullable: true
+        tickets_by_category: {}
+        tickets_by_priority: {}
+        tickets_by_status: {}
+        tickets_by_team: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedCustomer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        company_name:
+          type: string
+          maxLength: 150
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        notes:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedMembership:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        is_active:
+          type: boolean
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedNotification:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+          nullable: true
+        notification_type:
+          $ref: '#/components/schemas/NotificationTypeEnum'
+        title:
+          type: string
+          maxLength: 200
+        message:
+          type: string
+        is_read:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedOrganization:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        owner:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedRating:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+        customer:
+          type: integer
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+        score:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        comment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedReport:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        report_type:
+          $ref: '#/components/schemas/ReportTypeEnum'
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        data:
+          readOnly: true
+        generated_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedSLAPolicy:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        first_response_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        resolution_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTeam:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        lead:
+          type: integer
+          nullable: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTeamMember:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        team:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        is_active:
+          type: boolean
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTicket:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        customer:
+          type: integer
+        team:
+          type: integer
+          nullable: true
+        agent:
+          type: integer
+          nullable: true
+        ticket_number:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        status:
+          $ref: '#/components/schemas/TicketStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        resolved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+    PatchedTicketSLA:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+        policy:
+          type: integer
+        first_response_due_at:
+          type: string
+          format: date-time
+        resolution_due_at:
+          type: string
+          format: date-time
+        first_responded_at:
+          type: string
+          format: date-time
+          nullable: true
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TicketSLAStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedUserUpdate:
+      type: object
+      properties:
+        bio:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+    PriorityEnum:
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+      - URGENT
+      type: string
+      description: |-
+        * `LOW` - Low
+        * `MEDIUM` - Medium
+        * `HIGH` - High
+        * `URGENT` - Urgent
+    Rating:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+        customer:
+          type: integer
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+        score:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        comment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - agent
+      - created_at
+      - customer
+      - id
+      - organization
+      - score
+      - ticket
+      - updated_at
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        report_type:
+          $ref: '#/components/schemas/ReportTypeEnum'
+        description:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        data:
+          readOnly: true
+        generated_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - data
+      - end_date
+      - generated_by
+      - id
+      - name
+      - organization
+      - report_type
+      - start_date
+      - updated_at
+    ReportTypeEnum:
+      enum:
+      - TICKET_SUMMARY
+      - SLA_PERFORMANCE
+      - TEAM_PERFORMANCE
+      - CUSTOMER_ACTIVITY
+      type: string
+      description: |-
+        * `TICKET_SUMMARY` - Ticket Summary
+        * `SLA_PERFORMANCE` - SLA Performance
+        * `TEAM_PERFORMANCE` - Team Performance
+        * `CUSTOMER_ACTIVITY` - Customer Activity
+    ResendVerificationEmail:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    RoleEnum:
+      enum:
+      - OWNER
+      - ADMIN
+      - AGENT
+      - CUSTOMER
+      type: string
+      description: |-
+        * `OWNER` - Owner
+        * `ADMIN` - Admin
+        * `AGENT` - Agent
+        * `CUSTOMER` - Customer
+    SLAPolicy:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        first_response_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        resolution_minutes:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - first_response_minutes
+      - id
+      - name
+      - organization
+      - priority
+      - resolution_minutes
+      - updated_at
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        slug:
+          type: string
+          maxLength: 150
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        lead:
+          type: integer
+          nullable: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - organization
+      - slug
+      - updated_at
+    TeamMember:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        team:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        is_active:
+          type: boolean
+        joined_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - joined_at
+      - team
+      - user
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organization:
+          type: integer
+        customer:
+          type: integer
+        team:
+          type: integer
+          nullable: true
+        agent:
+          type: integer
+          nullable: true
+        ticket_number:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        status:
+          $ref: '#/components/schemas/TicketStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        resolved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - customer
+      - description
+      - id
+      - organization
+      - resolved_at
+      - ticket_number
+      - title
+      - updated_at
+    TicketSLA:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket:
+          type: integer
+        policy:
+          type: integer
+        first_response_due_at:
+          type: string
+          format: date-time
+        resolution_due_at:
+          type: string
+          format: date-time
+        first_responded_at:
+          type: string
+          format: date-time
+          nullable: true
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TicketSLAStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - first_response_due_at
+      - id
+      - policy
+      - resolution_due_at
+      - ticket
+      - updated_at
+    TicketSLAStatusEnum:
+      enum:
+      - ON_TRACK
+      - BREACHED
+      - PAUSED
+      - COMPLETED
+      type: string
+      description: |-
+        * `ON_TRACK` - On Track
+        * `BREACHED` - Breached
+        * `PAUSED` - Paused
+        * `COMPLETED` - Completed
+    TicketStatusEnum:
+      enum:
+      - OPEN
+      - IN_PROGRESS
+      - WAITING_CUSTOMER
+      - RESOLVED
+      - CLOSED
+      type: string
+      description: |-
+        * `OPEN` - Open
+        * `IN_PROGRESS` - In Progress
+        * `WAITING_CUSTOMER` - Waiting Customer
+        * `RESOLVED` - Resolved
+        * `CLOSED` - Closed
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          title: Email address
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 254
+          - type: string
+            maxLength: 0
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        bio:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - id
+      - password
+      - username
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
+      - password
+    UserUpdate:
+      type: object
+      properties:
+        bio:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

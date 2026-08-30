@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
@@ -6,6 +7,7 @@ from organizations.models import Membership
 from .models import Notification
 from .serializers import NotificationSerializer
 
+@extend_schema(tags=["Notifications"])
 class NotificationListView(generics.ListAPIView):
     serializer_class = NotificationSerializer
 
@@ -17,6 +19,7 @@ class NotificationListView(generics.ListAPIView):
             raise PermissionDenied("You do not have access to this organization.")
         return Notification.objects.filter(organization_id=organization_id, user=self.request.user).select_related("organization", "ticket")
 
+@extend_schema(tags=["Notifications"])
 class NotificationDetailView(generics.RetrieveAPIView):
     serializer_class = NotificationSerializer
 
@@ -28,6 +31,7 @@ class NotificationDetailView(generics.RetrieveAPIView):
             raise PermissionDenied("You do not have access to this organization.")
         return Notification.objects.filter(organization_id=organization_id, user=self.request.user).select_related("organization", "ticket")
 
+@extend_schema(tags=["Notifications"])
 class NotificationMarkReadView(generics.UpdateAPIView):
     serializer_class = NotificationSerializer
     http_method_names = ["patch"]
@@ -46,6 +50,7 @@ class NotificationMarkReadView(generics.UpdateAPIView):
         notification.save(update_fields=["is_read"])
         return Response(self.get_serializer(notification).data, status=status.HTTP_200_OK)
 
+@extend_schema(tags=["Notifications"])
 class NotificationMarkAllReadView(generics.GenericAPIView):
     serializer_class = NotificationSerializer
 
@@ -57,4 +62,3 @@ class NotificationMarkAllReadView(generics.GenericAPIView):
             raise PermissionDenied("You do not have access to this organization.")
         Notification.objects.filter(organization_id=organization_id, user=request.user, is_read=False).update(is_read=True)
         return Response({"detail": "All notifications marked as read."}, status=status.HTTP_200_OK)
-    

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,7 @@ from .models import AnalyticsSnapshot
 from .serializers import AnalyticsSnapshotSerializer
 from .services import generate_analytics_snapshot
 
+@extend_schema(tags=["Analytics"])
 class AnalyticsSnapshotListCreateView(generics.ListCreateAPIView):
     serializer_class = AnalyticsSnapshotSerializer
     permission_classes = [IsAuthenticated]
@@ -24,6 +26,7 @@ class AnalyticsSnapshotListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied("Only organization owners and admins can manage analytics snapshots.")
         serializer.save(organization_id=organization_id)
 
+@extend_schema(tags=["Analytics"])
 class AnalyticsSnapshotDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AnalyticsSnapshotSerializer
     permission_classes = [IsAuthenticated]
@@ -47,6 +50,7 @@ class AnalyticsSnapshotDetailView(generics.RetrieveUpdateDestroyAPIView):
             raise PermissionDenied("Only organization owners and admins can manage analytics snapshots.")
         instance.delete()
 
+@extend_schema(tags=["Analytics"])
 class TicketAnalyticsView(generics.RetrieveAPIView):
     serializer_class = AnalyticsSnapshotSerializer
     permission_classes = [IsAuthenticated]

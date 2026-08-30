@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +7,7 @@ from organizations.models import Membership
 from .models import SLAPolicy, TicketSLA
 from .serializers import SLAPolicySerializer, TicketSLASerializer
 
+@extend_schema(tags=["SLA"])
 class SLAPolicyListCreateView(generics.ListCreateAPIView):
     serializer_class = SLAPolicySerializer
     permission_classes = [IsAuthenticated]
@@ -23,6 +25,7 @@ class SLAPolicyListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied("Only organization owners and admins can manage SLA policies.")
         serializer.save(organization_id=organization_id)
 
+@extend_schema(tags=["SLA"])
 class SLAPolicyDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SLAPolicySerializer
     permission_classes = [IsAuthenticated]
@@ -46,6 +49,7 @@ class SLAPolicyDetailView(generics.RetrieveUpdateDestroyAPIView):
             raise PermissionDenied("Only organization owners and admins can manage SLA policies.")
         instance.delete()
 
+@extend_schema(tags=["SLA"])
 class TicketSLAListCreateView(generics.ListCreateAPIView):
     serializer_class = TicketSLASerializer
     permission_classes = [IsAuthenticated]
@@ -71,6 +75,7 @@ class TicketSLAListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied("This ticket already has an SLA.")
         serializer.save()
 
+@extend_schema(tags=["SLA"])
 class TicketSLADetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TicketSLASerializer
     permission_classes = [IsAuthenticated]

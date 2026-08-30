@@ -1,14 +1,14 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
-
 from customers.models import Customer
 from organizations.models import Membership
 from .models import Rating
 from .serializers import RatingSerializer
 
-
+@extend_schema(tags=["Ratings"])
 class RatingListCreateView(generics.ListCreateAPIView):
     serializer_class = RatingSerializer
     permission_classes = [IsAuthenticated]
@@ -32,7 +32,7 @@ class RatingListCreateView(generics.ListCreateAPIView):
             raise PermissionDenied("You can only rate your own tickets.")
         serializer.save(organization_id=organization_id, customer=customer, agent=ticket.agent)
 
-
+@extend_schema(tags=["Ratings"])
 class RatingDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RatingSerializer
     permission_classes = [IsAuthenticated]

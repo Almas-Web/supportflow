@@ -3,17 +3,21 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
-from .serializers import PasswordResetConfirmSerializer, PasswordResetRequestSerializer, UserLoginSerializer, UserSerializer, UserUpdateSerializer
+from .serializers import EmptySerializer, PasswordResetConfirmSerializer, PasswordResetRequestSerializer, ResendVerificationEmailSerializer, UserLoginSerializer, UserSerializer, UserUpdateSerializer
 
+@extend_schema(tags=["Account"])
 class UserSignUp(generics.CreateAPIView):
     serializer_class = UserSerializer
 
+@extend_schema(tags=["Account"])
 class VerifyEmail(generics.GenericAPIView):
+    serializer_class = EmptySerializer
     swagger_fake_view = True
 
     def get(self, request, token):
@@ -27,7 +31,9 @@ class VerifyEmail(generics.GenericAPIView):
             return Response({"details": "Successfully verified!"}, status=status.HTTP_200_OK)
         return Response({"details": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
+@extend_schema(tags=["Account"])
 class ResendVerificationEmail(generics.GenericAPIView):
+    serializer_class = ResendVerificationEmailSerializer
     swagger_fake_view = True
 
     def post(self, request, *args, **kwargs):
@@ -48,6 +54,7 @@ class ResendVerificationEmail(generics.GenericAPIView):
         email_message.send(fail_silently=False)
         return Response({"details": "Verification email sent!"}, status=status.HTTP_200_OK)
 
+@extend_schema(tags=["Account"])
 class UserLogin(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
 
@@ -64,6 +71,7 @@ class UserLogin(generics.GenericAPIView):
             return Response({"refresh_token": str(refresh), "access_token": str(refresh.access_token)})
         return Response({"details": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
+@extend_schema(tags=["Account"])
 class RetrieveUpdateProfile(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
@@ -76,6 +84,7 @@ class RetrieveUpdateProfile(generics.RetrieveUpdateAPIView):
             return UserUpdateSerializer
         return UserSerializer
 
+@extend_schema(tags=["Account"], operation_id="password_reset_request")
 class PasswordResetRequest(generics.GenericAPIView):
     serializer_class = PasswordResetRequestSerializer
 
@@ -89,6 +98,7 @@ class PasswordResetRequest(generics.GenericAPIView):
         token = default_token_generator.make_token(user)
         return Response({"details": "Password reset token generated!", "token": token}, status=status.HTTP_200_OK)
 
+@extend_schema(tags=["Account"], operation_id="password_reset_confirm")
 class PasswordResetConfirm(generics.GenericAPIView):
     serializer_class = PasswordResetConfirmSerializer
 
@@ -102,7 +112,9 @@ class PasswordResetConfirm(generics.GenericAPIView):
         user.save(update_fields=["password"])
         return Response({"details": "Password reset successfully!"}, status=status.HTTP_200_OK)
 
+@extend_schema(tags=["Account"])
 class ActivateDeactivateUser(generics.GenericAPIView):
+    serializer_class = EmptySerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -110,4 +122,3 @@ class ActivateDeactivateUser(generics.GenericAPIView):
         user.is_active = not user.is_active
         user.save(update_fields=["is_active"])
         return Response({"details": "User activated!" if user.is_active else "User deactivated!", "is_active": user.is_active}, status=status.HTTP_200_OK)
-    

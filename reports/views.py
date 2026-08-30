@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,7 @@ from .models import Report
 from .serializers import ReportSerializer
 from .services import generate_report_data
 
+@extend_schema(tags=["Reports"])
 class ReportListCreateView(generics.ListCreateAPIView):
     serializer_class = ReportSerializer
     permission_classes = [IsAuthenticated]
@@ -25,6 +27,7 @@ class ReportListCreateView(generics.ListCreateAPIView):
         data = generate_report_data(membership.organization, serializer.validated_data["report_type"], serializer.validated_data["start_date"], serializer.validated_data["end_date"])
         serializer.save(organization=membership.organization, generated_by=self.request.user, data=data)
 
+@extend_schema(tags=["Reports"])
 class ReportDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReportSerializer
     permission_classes = [IsAuthenticated]
