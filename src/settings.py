@@ -1,11 +1,14 @@
 from datetime import timedelta
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
@@ -19,6 +22,7 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -26,7 +30,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "rest_framework",
     "drf_spectacular",
+
     "account",
     "organizations",
     "teams",
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
     "reports",
 ]
 
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -50,7 +58,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "src.urls"
+
 
 TEMPLATES = [
     {
@@ -68,7 +78,9 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = "src.wsgi.application"
+
 
 DATABASES = {
     "default": {
@@ -87,25 +99,41 @@ DATABASES = {
     }
 }
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        )
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        )
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        )
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        )
     },
 ]
 
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
+
 USE_I18N = True
 USE_TZ = True
+
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -113,9 +141,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "account.CustomUser"
+
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
@@ -123,37 +153,56 @@ EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+
+DEFAULT_FROM_EMAIL = os.getenv(
+    "DEFAULT_FROM_EMAIL",
+    EMAIL_HOST_USER,
+)
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+    ),
 }
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "SupportFlow API",
-    "DESCRIPTION": "Multi-tenant customer support and ticket management API.",
+    "DESCRIPTION": (
+        "Multi-tenant customer support and ticket management API."
+    ),
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+
     "TAGS": [
         {
             "name": "Account",
-            "description": "Authentication and user account management.",
+            "description": (
+                "Authentication and user account management."
+            ),
         },
         {
             "name": "Organizations",
-            "description": "Organization and membership management.",
+            "description": (
+                "Organization and membership management."
+            ),
         },
         {
             "name": "Teams",
-            "description": "Team and team member management.",
+            "description": (
+                "Team and team member management."
+            ),
         },
         {
             "name": "Customers",
@@ -161,11 +210,15 @@ SPECTACULAR_SETTINGS = {
         },
         {
             "name": "Tickets",
-            "description": "Customer support ticket management.",
+            "description": (
+                "Customer support and ticket management."
+            ),
         },
         {
             "name": "SLA",
-            "description": "SLA policy and ticket SLA management.",
+            "description": (
+                "SLA policy and ticket SLA management."
+            ),
         },
         {
             "name": "Notifications",
@@ -173,7 +226,9 @@ SPECTACULAR_SETTINGS = {
         },
         {
             "name": "Ratings",
-            "description": "Customer and ticket ratings.",
+            "description": (
+                "Customer and ticket ratings."
+            ),
         },
         {
             "name": "Audit",
@@ -181,7 +236,9 @@ SPECTACULAR_SETTINGS = {
         },
         {
             "name": "Analytics",
-            "description": "Organization analytics and summaries.",
+            "description": (
+                "Organization analytics and summaries."
+            ),
         },
         {
             "name": "Reports",
@@ -190,7 +247,9 @@ SPECTACULAR_SETTINGS = {
     ],
 }
 
+
 # Production security settings
+
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
 
