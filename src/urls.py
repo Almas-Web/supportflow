@@ -1,3 +1,4 @@
+from src.health import health_check
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -5,6 +6,7 @@ from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
+    path("health/", health_check, name="health"),
     path("admin/", admin.site.urls),
     path("api/account/", include("account.urls")),
     path("api/organizations/", include("organizations.urls")),
